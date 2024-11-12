@@ -94,19 +94,21 @@ async function handleCreateRace() {
 	// render starting UI
 	renderAt('#race', renderRaceStartView(store.track_name))
 
-	// TODO - Get player_id and track_id from the store
+	const {player_id, track_id} = store;
+	console.log(`player info: ${player_id} ${track_id}`);
 	
-	// const race = TODO - call the asynchronous method createRace, passing the correct parameters
+	const race = await createRace(player_id, track_id);
 
-	// TODO - update the store with the race id in the response
 	// TIP - console logging API responses can be really helpful to know what data shape you received
-	console.log("RACE: ", race)
-	// store.race_id = 
+	console.log("RACE: ", race);
+	store.race_id = race.ID;
 	
 	// The race has been created, now start the countdown
 	// TODO - call the async function runCountdown
+	runCountdown().catch(err => console.log(err));
 
 	// TODO - call the async function startRace
+	startRace(store.race_id);
 	// TIP - remember to always check if a function takes parameters before calling it!
 
 	// TODO - call the async function runRace
@@ -136,17 +138,20 @@ function runRace(raceID) {
 async function runCountdown() {
 	try {
 		// wait for the DOM to load
-		await delay(1000)
-		let timer = 3
-
-		return new Promise(resolve => {
-			// TODO - use Javascript's built in setInterval method to count down once per second
-
-			// run this DOM manipulation inside the set interval to decrement the countdown for the user
-			document.getElementById('big-numbers').innerHTML = --timer
-
-			// TODO - when the setInterval timer hits 0, clear the interval, resolve the promise, and return
-
+		await delay(1000);
+		return new Promise(() => {
+			const countDown = () => {
+				let timer = 3;
+			
+				return () => {
+					document.getElementById('big-numbers').innerHTML = --timer
+					if (timer === 0) {
+						clearInterval(timerInterval);
+						return 'success!';
+					}
+				}
+			}
+			const timerInterval = setInterval(countDown(), 1000);
 		})
 	} catch(error) {
 		console.log(error);
@@ -181,7 +186,7 @@ function handleSelectTrack(target) {
 
 function handleAccelerate() {
 	console.log("accelerate button clicked")
-	// TODO - Invoke the API call to accelerate
+	accelerate(store.race_id).catch(err => console.log(err));
 }
 
 // HTML VIEWS ------------------------------------------------
