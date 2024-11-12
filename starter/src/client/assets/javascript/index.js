@@ -18,11 +18,11 @@ document.addEventListener("DOMContentLoaded", function() {
 async function onPageLoad() {
 	console.log("Getting form info for dropdowns!")
 	try {
-		/*getTracks()
+		getTracks()
 			.then(tracks => {
 				const html = renderTrackCards(tracks)
 				renderAt('#tracks', html)
-			})*/
+			})
 
 		getRacers()
 			.then((racers) => {
@@ -338,8 +338,9 @@ function defaultFetchOpts() {
 function getTracks() {
 	console.log(`calling server :: ${SERVER}/api/tracks`)
 	// GET request to `${SERVER}/api/tracks`
-
-	// TODO: Fetch tracks
+    return fetch(`${SERVER}/api/tracks`)
+		.then(result => result.json())
+		.catch(err => console.log(err));
 	// TIP: Don't forget a catch statement!
 }
 
