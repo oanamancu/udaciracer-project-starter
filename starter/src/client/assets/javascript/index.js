@@ -18,17 +18,20 @@ document.addEventListener("DOMContentLoaded", function() {
 async function onPageLoad() {
 	console.log("Getting form info for dropdowns!")
 	try {
-		getTracks()
+		/*getTracks()
 			.then(tracks => {
 				const html = renderTrackCards(tracks)
 				renderAt('#tracks', html)
-			})
+			})*/
 
 		getRacers()
 			.then((racers) => {
 				const html = renderRacerCars(racers)
 				renderAt('#racers', html)
 			})
+			.catch(err =>
+				console.log(err)
+			)
 	} catch(error) {
 		console.log("Problem getting tracks and racers ::", error.message)
 		console.error(error)
@@ -318,7 +321,7 @@ function renderAt(element, html) {
 
 // API CALLS ------------------------------------------------
 
-const SERVER = 'http://localhost:3001'
+const SERVER = 'http://localhost:3001';
 
 function defaultFetchOpts() {
 	return {
@@ -342,8 +345,10 @@ function getTracks() {
 
 function getRacers() {
 	// GET request to `${SERVER}/api/cars`
+	return fetch ( `${SERVER}/api/cars`)
+		.then(response => response.json())
+		.catch(error => console.log(`getRacers() error: ${error}`));
 
-	// TODO: Fetch racers
 	// TIP: Do a file search for "TODO" to make sure you find all the things you need to do! There are even some vscode plugins that will highlight todos for you
 }
 

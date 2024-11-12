@@ -18,10 +18,11 @@ body {
   flex-direction: column;
   font-family: Arial;
   min-height: 100vh;
+  background-color: rgb(33, 33, 135);
 }
 
 header {
-  background-image: url('https://via.placeholder.com/1150');
+  background-image: url('../images/car1.jpeg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -33,9 +34,10 @@ header {
 
 h1 {
   color: white;
-  text-shadow: 3px 2px hsl(0, 2%, 51%);
+  text-shadow: 6px 5px hsl(0, 3%, 13%);
   font-size: 70px;
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 h2 {
